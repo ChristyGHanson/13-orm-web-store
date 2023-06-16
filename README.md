@@ -1,2 +1,1 @@
-# 13-orm-web-store
-Uses Express.js, Sequelize, and MySQL.
+# E-commerce Back End Starter Code
