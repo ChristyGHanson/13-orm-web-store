@@ -1,3 +1,4 @@
+// fill in category, product, tag
 const router = require('express').Router();
 const { Category, Product } = require('../../models');
 

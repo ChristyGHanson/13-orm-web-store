@@ -1,3 +1,6 @@
+// paths between the routes
+// do not touch this
+// connects the routes inside the api folder
 const router = require('express').Router();
 const categoryRoutes = require('./category-routes');
 const productRoutes = require('./product-routes');

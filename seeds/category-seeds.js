@@ -1,3 +1,6 @@
+// These are given data already. 
+// build associations first. then run npm seed
+
 const { Category } = require('../models');
 
 const categoryData = [

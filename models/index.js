@@ -1,4 +1,9 @@
 // import models
+// building associations here. see README
+
+// Then work on routes folder
+// fill in category, product-routes, tag-routes.
+
 const Product = require('./Product');
 const Category = require('./Category');
 const Tag = require('./Tag');
