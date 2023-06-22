@@ -40,29 +40,23 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// .then, and .catch 
 router.post('/', async (req, res) => {
   // create a new category
+  console.log(req.body);
   Category.create(req.body)
+    // where i want to return the res.status
     .then((category) => {
-      if (req.body.id.length) {
-        const categoryIdArr = req.body.id.map((id) => {
-          return {
-            category_name: category.id
-          };
-        });
-        return Category.create(categoryIdArr);
-      }
-      res.status(200).json(category);
+      res.status(200).json(category)
     })
-    .then((categories) => res.status(200).json
-      (categories))
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);
     });
 });
 
-// Update a category by its id value
+// Update a category 
+//  try/catch is for error handling
 router.put('/:id', async (req, res) => {
   // update a category by its `id` value
   try {
