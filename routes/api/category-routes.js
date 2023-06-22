@@ -1,3 +1,6 @@
+// Continue testing routes in Insomnia - Tutoring
+// server is connected already
+
 // fill in category, product, tag
 const router = require('express').Router();
 // Used in routers
@@ -21,7 +24,10 @@ router.get('/', async (req, res) => {
   }
 });
 
+// :id is a param. Signifies an int value.
+// :id acts like a variable
 router.get('/:id', async (req, res) => {
+  console.log(req.params.id);
   // find one category by its `id` value
   // be sure to include its associated Products in the 'Product' table.
   try {
@@ -36,14 +42,27 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   // create a new category
-  try {
-    var data = await Category.create(req.body);
-    res.status(200).json(data);
-  } catch (error) {
-    res.status(500).json(error);
-  }
+  Category.create(req.body)
+    .then((category) => {
+      if (req.body.id.length) {
+        const categoryIdArr = req.body.id.map((id) => {
+          return {
+            category_name: category.id
+          };
+        });
+        return Category.create(categoryIdArr);
+      }
+      res.status(200).json(category);
+    })
+    .then((categories) => res.status(200).json
+      (categories))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json(err);
+    });
 });
 
+// Update a category by its id value
 router.put('/:id', async (req, res) => {
   // update a category by its `id` value
   try {

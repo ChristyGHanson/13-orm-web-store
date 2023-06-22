@@ -41,6 +41,8 @@ router.post('/', (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
+  // create new product
+  // model: Product with create method. passes req.body as data for the new product.
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -64,6 +66,7 @@ router.post('/', (req, res) => {
 });
 
 // update product
+// Product, Category, Tag, ProductTag
 router.put('/:id', (req, res) => {
   // update product data
   Product.update(req.body, {
