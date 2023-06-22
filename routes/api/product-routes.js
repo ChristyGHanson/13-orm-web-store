@@ -4,6 +4,7 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 // The `/api/products` endpoint
 
 // get all products
+// http://localhost:3001/api/products
 router.get('/', async (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
@@ -18,6 +19,7 @@ router.get('/', async (req, res) => {
 });
 
 // get one product from the id column in product table
+// http://localhost:3001/api/products/2
 router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
@@ -31,8 +33,10 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// create new product
+// create new product, send data to db
+// BROKEN?!?! Does not sent data to db
 router.post('/', (req, res) => {
+  console.log(req.body);
   /* req.body should look like this...
     {
       product_name: "Basketball",
@@ -41,16 +45,15 @@ router.post('/', (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
-  // create new product
   // model: Product with create method. passes req.body as data for the new product.
   Product.create(req.body)
+
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
       if (req.body.tagIds.length) {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
           return {
-            product_id: product.id,
-            tag_id,
+            id: tag_id
           };
         });
         return ProductTag.bulkCreate(productTagIdArr);
@@ -58,7 +61,8 @@ router.post('/', (req, res) => {
       // if no product tags, just respond
       res.status(200).json(product);
     })
-    .then((productTagIds) => res.status(200).json(productTagIds))
+
+    .then((product) => res.status(200).json(productTagIds))
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);
@@ -112,11 +116,11 @@ router.put('/:id', (req, res) => {
     });
 });
 
+// BROKEN
 router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
   try {
     var data = await Product.findByPk(req.params.id, {
-      include: [{ model: Category }, { model: Tag }]
     });
     if (data) {
       data.destroy();

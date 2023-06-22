@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 // :id is a param. Signifies an int value.
 // :id acts like a variable
 router.get('/:id', async (req, res) => {
-  console.log(req.params.id);
+  console.log("category-routes.js" + req.params.id);
   // find one category by its `id` value
   // be sure to include its associated Products in the 'Product' table.
   try {
@@ -40,8 +40,10 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// .then, and .catch 
-router.post('/', async (req, res) => {
+
+// POST adds data to the db.
+// DONE - verified by BCS tutoring
+router.post('/', (req, res) => {
   // create a new category
   console.log(req.body);
   Category.create(req.body)
@@ -54,6 +56,7 @@ router.post('/', async (req, res) => {
       res.status(400).json(err);
     });
 });
+
 
 // Update a category 
 //  try/catch is for error handling

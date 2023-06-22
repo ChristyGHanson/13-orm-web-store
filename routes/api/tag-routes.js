@@ -16,12 +16,14 @@ router.get('/', async (req, res) => {
   }
 });
 
+
 router.get('/:id', async (req, res) => {
+  console.log("tag-routes.js: " + req.params.id);
   // find a single tag by its `id`
   // be sure to include its associated Product data
   try {
     var data = await Tag.findByPk(req.params.id, {
-      include: [{ model: Product }]
+      include: [{ model: ProductTag }]
     });
     res.status(200).json(data);
   } catch (error) {
@@ -29,24 +31,15 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+
 router.post('/', (req, res) => {
   // create a new tag --Product, ProductTag
+  console.log(req.body);
   Tag.create(req.body)
+    // where i want to return the res.status
     .then((tag) => {
-      // if there's product tags, we need to create pairings to bulk create in the ProductTag model
-      if (req.body.tagIds.length) {
-        const tagArray = req.body.tagIds.map((tag_id) => {
-          return {
-            tag_id: tag.id,
-            tag_id,
-          };
-        });
-        return tag.bulkCreate(tagArray);
-      }
-      // if no product tags, just respond
-      res.status(200).json(product);
+      res.status(200).json(tag)
     })
-    .then((tagIds) => res.status(200).json(tagIds))
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);
@@ -55,6 +48,7 @@ router.post('/', (req, res) => {
 
 // update tag
 // --Product, ProductTag
+// BROKEN!!
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
   Tag.update(req.body, {
@@ -101,8 +95,19 @@ router.put('/:id', (req, res) => {
 
 });
 
-router.delete('/:id', (req, res) => {
-  // delete on tag by its `id` value
+// This works! It now deletes a tag by its 'id' value
+router.delete('/:id', async (req, res) => {
+  try {
+    var data = await Tag.findByPk(req.params.id);
+    if (data) {
+      data.destroy();
+    } else {
+      res.status(404).json({ message: 'Data not found!' });
+    }
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 module.exports = router;
