@@ -34,7 +34,6 @@ router.get('/:id', async (req, res) => {
 });
 
 // create new product, send data to db
-// BROKEN?!?! Does not sent data to db
 router.post('/', (req, res) => {
   console.log(req.body);
   /* req.body should look like this...
@@ -46,14 +45,21 @@ router.post('/', (req, res) => {
     }
   */
   // model: Product with create method. passes req.body as data for the new product.
-  Product.create(req.body)
-
+  // for product_name, send B-ball.
+  Product.create(
+    {
+      product_name: req.body.product_name,
+      price: req.body.price,
+      stock: req.body.stock,
+      category_id: req.body.category_id
+    })
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
       if (req.body.tagIds.length) {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
           return {
-            id: tag_id
+            tag_id: tag_id,
+            product_id: product.id
           };
         });
         return ProductTag.bulkCreate(productTagIdArr);
@@ -62,7 +68,7 @@ router.post('/', (req, res) => {
       res.status(200).json(product);
     })
 
-    .then((product) => res.status(200).json(productTagIds))
+    .then((product) => res.status(200).json(product))
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);
@@ -116,7 +122,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-// BROKEN
+
 router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
   try {
