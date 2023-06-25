@@ -46,8 +46,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// update tag
-// --Product, ProductTag
+// This updates the tag.
 router.put('/:id', (req, res) => {
   // update a tag's name by its `id` value
   Tag.update(req.body, {
@@ -94,7 +93,7 @@ router.put('/:id', (req, res) => {
 
 });
 
-// This works! It now deletes a tag by its 'id' value
+// This will delete a tag by its 'id' value
 router.delete('/:id', async (req, res) => {
   try {
     var data = await Tag.findByPk(req.params.id);
