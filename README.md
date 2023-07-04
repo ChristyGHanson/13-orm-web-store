@@ -3,25 +3,13 @@
 ## Table of Contents
 
 * [Description](#description)
-* [Installation](#installation)
-* [Usage](#usage)
-* [License](#license)
 * [Contributing](#contributing)
 * [Tests](#tests)
 * [Questions](#questions)
 
-  
 ## Description
   
 This is the back end of an e-commerce web site.
-  
-## Installation
-  
-Installation instructions.
-    
-## Usage
-  
-Use this app to generate a README.md for your GitHub project.
   
 ## Contributing
   
