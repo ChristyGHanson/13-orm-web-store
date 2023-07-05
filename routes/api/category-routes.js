@@ -58,7 +58,7 @@ router.post('/', (req, res) => {
 });
 
 
-// Update a category 
+// Update a category - send it json and update the name of the category
 //  try/catch is for error handling
 router.put('/:id', async (req, res) => {
   // update a category by its `id` value
@@ -74,6 +74,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
+// deletes a route 
 router.delete('/:id', async (req, res) => {
   try {
     var data = await Category.findByPk(req.params.id);
