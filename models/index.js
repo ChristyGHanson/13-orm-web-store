@@ -43,13 +43,13 @@ Category.hasMany(Product, {
 // between A and B, using table C as junction table,
 // which will have the foreign keys (aId and bId, for example).
 Product.belongsToMany(Tag, {
-  foreignKey: tag_name,
+  foreignKey: 'tag_name',
   through: ProductTag
 })
 
 // Tags belongToMany Products (through ProductTag)
 Tag.belongsToMany(Product, {
-  foreignKey: product_name,
+  foreignKey: 'product_name',
   through: ProductTag
 })
 
